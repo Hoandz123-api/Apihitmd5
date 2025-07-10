@@ -17,10 +17,10 @@ let latestResult = {
   Xuc_xac_3: 0,
   Tong: 0,
   Ket_qua: "",
-  id: "@hatronghoann"  // ✅ Thêm mặc định
+  id: "@hatronghoann",
 };
 
-// ✅ Tính kết quả Tài/Xỉu
+// ✅ Hàm tính kết quả tài/xỉu
 function updateResult(d1, d2, d3, sid = null) {
   const total = d1 + d2 + d3;
   const result = total > 10 ? "Tài" : "Xỉu";
@@ -31,7 +31,7 @@ function updateResult(d1, d2, d3, sid = null) {
     Xuc_xac_3: d3,
     Tong: total,
     Ket_qua: result,
-    id: "@hatronghoann"  // ✅ Thêm vào JSON
+   id: "@hatronghoann",
   };
 
   const timeStr = new Date().toISOString().replace("T", " ").slice(0, 19);
@@ -40,7 +40,7 @@ function updateResult(d1, d2, d3, sid = null) {
   );
 }
 
-// ✅ Xử lý tin nhắn từ WebSocket
+// ✅ Hàm xử lý tin nhắn
 function handleMessage(message) {
   try {
     const data = JSON.parse(message);
@@ -110,34 +110,35 @@ function connectWebSocket() {
 
   ws.on("close", (code, reason) => {
     console.warn(`⚠️ Mất kết nối WebSocket (${code}): ${reason}`);
-    setTimeout(connectWebSocket, 1000);
+    setTimeout(connectWebSocket, 1000); // Tự reconnect sau 1s
   });
 
   ws.on("error", (err) => {
-    console.error("❌ WebSocket lỗi:", err.message);
+    console.error("❌ Lỗi WebSocket:", err.message);
   });
 }
 
 connectWebSocket();
+
 
 // ✅ API trả kết quả Tài/Xỉu
 app.get("/api/taixiu", (req, res) => {
   res.json(latestResult);
 });
 
-// ✅ Root
+// ✅ Root route
 app.get("/", (req, res) => {
   res.json({ status: "HitClub Tài Xỉu đang chạy", phien: latestResult.Phien });
 });
 
-// ✅ Chống sleep trên Render
+// ✅ Chống sleep: tự ping chính mình mỗi 5 phút
 setInterval(() => {
   if (SELF_URL.includes("http")) {
     axios.get(`${SELF_URL}/api/taixiu`).catch(() => {});
   }
 }, 300000); // 5 phút
 
-// ✅ Start Server
+// ✅ Khởi chạy server
 app.listen(PORT, () => {
   console.log(`🚀 Server HitMD5 Tài Xỉu đang chạy tại http://localhost:${PORT}`);
 });

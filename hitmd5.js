@@ -94,7 +94,7 @@ function connectWebSocket() {
     const messages = [
       [1, "MiniGame", "", "", {
         agentId: "1",
-        accessToken: "1-6ae8c6c5e499eb5bfd25986adb78b374",
+        accessToken: "1-951105cee835343eeb1912721b22a5e7",
         reconnect: false,
       }],
       ["6", "MiniGame", "taixiuKCBPlugin", { cmd: 2000 }],

@@ -17,6 +17,7 @@ let latestResult = {
   Xuc_xac_3: 0,
   Tong: 0,
   Ket_qua: "",
+  id: "@hatronghoann",
 };
 
 // ✅ Hàm tính kết quả tài/xỉu
@@ -30,7 +31,6 @@ function updateResult(d1, d2, d3, sid = null) {
     Xuc_xac_3: d3,
     Tong: total,
     Ket_qua: result,
-   id: "@hatronghoann"
   };
 
   const timeStr = new Date().toISOString().replace("T", " ").slice(0, 19);
@@ -93,7 +93,7 @@ function connectWebSocket() {
     const messages = [
       [1, "MiniGame", "", "", {
         agentId: "1",
-        accessToken: "1-6ae8c6c5e499eb5bfd25986adb78b374",
+        accessToken: "1-17d1b52f17591f581fc8cd9102a28647",
         reconnect: false,
       }],
       ["6", "MiniGame", "taixiuKCBPlugin", { cmd: 2000 }],

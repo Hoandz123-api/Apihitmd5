@@ -17,7 +17,7 @@ let latestResult = {
   Xuc_xac_3: 0,
   Tong: 0,
   Ket_qua: "",
-  id: "@hatronghoann",
+  id: "hatronghoann"
 };
 
 // ✅ Hàm tính kết quả tài/xỉu
@@ -31,7 +31,7 @@ function updateResult(d1, d2, d3, sid = null) {
     Xuc_xac_3: d3,
     Tong: total,
     Ket_qua: result,
-   id: "@hatronghoann",
+    id: "@hatronghoann"
   };
 
   const timeStr = new Date().toISOString().replace("T", " ").slice(0, 19);

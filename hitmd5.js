@@ -17,10 +17,10 @@ let latestResult = {
   Xuc_xac_3: 0,
   Tong: 0,
   Ket_qua: "",
-  id: "@hatronghoann",
+  id: "@hatronghoann"  // ✅ Thêm mặc định
 };
 
-// ✅ Hàm tính kết quả tài/xỉu
+// ✅ Tính kết quả Tài/Xỉu
 function updateResult(d1, d2, d3, sid = null) {
   const total = d1 + d2 + d3;
   const result = total > 10 ? "Tài" : "Xỉu";
@@ -31,6 +31,7 @@ function updateResult(d1, d2, d3, sid = null) {
     Xuc_xac_3: d3,
     Tong: total,
     Ket_qua: result,
+    id: "@hatronghoann"  // ✅ Thêm vào JSON
   };
 
   const timeStr = new Date().toISOString().replace("T", " ").slice(0, 19);
@@ -39,7 +40,7 @@ function updateResult(d1, d2, d3, sid = null) {
   );
 }
 
-// ✅ Hàm xử lý tin nhắn
+// ✅ Xử lý tin nhắn từ WebSocket
 function handleMessage(message) {
   try {
     const data = JSON.parse(message);
@@ -93,7 +94,7 @@ function connectWebSocket() {
     const messages = [
       [1, "MiniGame", "", "", {
         agentId: "1",
-        accessToken: "1-17d1b52f17591f581fc8cd9102a28647",
+        accessToken: "1-6ae8c6c5e499eb5bfd25986adb78b374",
         reconnect: false,
       }],
       ["6", "MiniGame", "taixiuKCBPlugin", { cmd: 2000 }],
@@ -109,35 +110,34 @@ function connectWebSocket() {
 
   ws.on("close", (code, reason) => {
     console.warn(`⚠️ Mất kết nối WebSocket (${code}): ${reason}`);
-    setTimeout(connectWebSocket, 1000); // Tự reconnect sau 1s
+    setTimeout(connectWebSocket, 1000);
   });
 
   ws.on("error", (err) => {
-    console.error("❌ Lỗi WebSocket:", err.message);
+    console.error("❌ WebSocket lỗi:", err.message);
   });
 }
 
 connectWebSocket();
-
 
 // ✅ API trả kết quả Tài/Xỉu
 app.get("/api/taixiu", (req, res) => {
   res.json(latestResult);
 });
 
-// ✅ Root route
+// ✅ Root
 app.get("/", (req, res) => {
   res.json({ status: "HitClub Tài Xỉu đang chạy", phien: latestResult.Phien });
 });
 
-// ✅ Chống sleep: tự ping chính mình mỗi 5 phút
+// ✅ Chống sleep trên Render
 setInterval(() => {
   if (SELF_URL.includes("http")) {
     axios.get(`${SELF_URL}/api/taixiu`).catch(() => {});
   }
 }, 300000); // 5 phút
 
-// ✅ Khởi chạy server
+// ✅ Start Server
 app.listen(PORT, () => {
   console.log(`🚀 Server HitMD5 Tài Xỉu đang chạy tại http://localhost:${PORT}`);
 });
